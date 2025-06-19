@@ -1,0 +1,48 @@
+SERVICE AGREEMENT CONTRACT
+
+Contract #: CTR-2025-SVC-001
+Effective Date: June 19, 2025
+Expiration Date: June 19, 2026
+
+PARTIES:
+Service Provider: CloudTech Solutions Inc.
+Address: 567 Technology Park Drive, Austin, TX 78701
+Contact: contracts@cloudtech.com
+
+Client: StartupXYZ Corporation  
+Address: 890 Entrepreneur Lane, Denver, CO 80202
+Contact: legal@startupxyz.com
+
+SCOPE OF SERVICES:
+1. Cloud Infrastructure Management
+2. 24/7 System Monitoring
+3. Security Compliance Auditing
+4. Performance Optimization
+5. Technical Support (Business Hours)
+
+SERVICE LEVEL AGREEMENTS:
+- 99.9% Uptime Guarantee
+- <2 Hour Response Time for Critical Issues
+- Monthly Performance Reports
+- Quarterly Security Reviews
+
+FINANCIAL TERMS:
+Monthly Service Fee: $5,500.00
+Setup Fee (One-time): $2,000.00
+Overage Rate: $150/hour
+Payment Terms: Net 15 days
+
+TERMINATION:
+Either party may terminate with 30 days written notice.
+Early termination fee: 50% of remaining contract value.
+
+This contract is governed by the laws of Texas.
+
+Signatures:
+CloudTech Solutions Inc.
+By: Michael Rodriguez, VP Sales
+Date: _______________
+
+StartupXYZ Corporation
+By: Jennifer Lee, CEO  
+Date: _______________

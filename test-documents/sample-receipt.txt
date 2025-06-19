@@ -1,0 +1,29 @@
+RECEIPT
+
+Retail Store: TechMart Electronics
+Location: 789 Gadget Street, Tech City
+Phone: (555) 123-4567
+Date: June 19, 2025
+Time: 2:30 PM
+Receipt #: RCT-2025-0619-001
+
+Items Purchased:
+--------------------------------
+MacBook Pro 16" M3             $2,499.00
+USB-C Charging Cable              $29.99
+Wireless Mouse                    $79.99
+Screen Protector                  $19.99
+                              ----------
+Subtotal:                     $2,628.97
+Sales Tax (8.25%):              $216.89
+TOTAL:                        $2,845.86
+
+Payment Method: Credit Card
+Card: **** **** **** 1234
+Authorization: 123456789
+
+Thank you for shopping at TechMart!
+Please keep this receipt for warranty purposes.
+
+Return Policy: 30 days with receipt
+Customer Service: support@techmart.com

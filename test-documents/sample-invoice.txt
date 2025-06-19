@@ -1,0 +1,31 @@
+INVOICE
+
+Invoice #: INV-2024-DEMO-001
+Date: June 19, 2025
+Due Date: July 19, 2025
+
+Bill To:
+TechStart Solutions Inc.
+456 Innovation Drive
+Silicon Valley, CA 94043
+
+From:
+Digital Services LLC
+123 Business Ave
+Tech City, TX 75001
+
+Description                           Qty    Rate      Amount
+--------------------------------------------------------
+Web Development Services              40h    $150/h    $6,000.00
+Database Design & Implementation      20h    $175/h    $3,500.00
+API Integration                       15h    $160/h    $2,400.00
+Quality Assurance Testing             10h    $120/h    $1,200.00
+                                                      ----------
+                                            Subtotal:  $13,100.00
+                                            Sales Tax:    $917.00
+                                            TOTAL:     $14,017.00
+
+Payment Terms: Net 30 days
+Payment Methods: ACH, Wire Transfer, Check
+
+Thank you for choosing Digital Services LLC!
