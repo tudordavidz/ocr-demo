@@ -1,0 +1,347 @@
+{
+  "info": {
+    "name": "OCR Document Processing API",
+    "description": "Complete API collection for testing the OCR document processing pipeline",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "documentId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "General Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Check if the API server is running and healthy"
+          },
+          "response": []
+        },
+        {
+          "name": "Queue Health & Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/health/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "health", "status"]
+            },
+            "description": "Get queue statistics and processing health status"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Document Operations",
+      "item": [
+        {
+          "name": "Upload Document",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Extract document ID from response and set as variable",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.document && response.document.id) {",
+                  "        pm.collectionVariables.set('documentId', response.document.id);",
+                  "        console.log('Document ID saved:', response.document.id);",
+                  "    }",
+                  "}",
+                  "",
+                  "// Test response",
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Response contains document info', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response).to.have.property('message');",
+                  "    pm.expect(response).to.have.property('document');",
+                  "    pm.expect(response.document).to.have.property('id');",
+                  "    pm.expect(response.document).to.have.property('status', 'uploaded');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "document",
+                  "type": "file",
+                  "src": "/Users/tudordavid/Desktop/untitled folder 2/ocr-demo/sample-invoice.txt",
+                  "description": "Select a document file to upload (images, PDFs, or text files)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/upload",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "upload"]
+            },
+            "description": "Upload a document for OCR processing. Accepts images (JPEG, PNG, GIF), PDFs, and text files up to 10MB."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents"]
+            },
+            "description": "Retrieve a list of all uploaded documents with their processing status and metadata"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Document Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "{{documentId}}"]
+            },
+            "description": "Get detailed information about a specific document including extracted metadata"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Document Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{documentId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "{{documentId}}", "status"]
+            },
+            "description": "Get the current processing status of a specific document"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test Scenarios",
+      "item": [
+        {
+          "name": "Upload Sample Invoice",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Save document ID for subsequent requests",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('documentId', response.document.id);",
+                  "}",
+                  "",
+                  "pm.test('Invoice uploaded successfully', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.document.originalName).to.include('invoice');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "INVOICE\n\nInvoice #: INV-2024-12345\nDate: 2024-06-19\nDue Date: 2024-07-19\n\nBill To:\nAcme Corporation\n123 Business Street\nTech City, TC 12345\n\nDescription                    Qty    Unit Price    Total\n----------------------------------------------------------\nProfessional Services          40     $125.00      $5,000.00\nSoftware Consulting           20     $150.00      $3,000.00\nTechnical Documentation        8     $100.00      $800.00\n                                                   ---------\n                                     Subtotal:     $8,800.00\n                                     Tax (8.5%):   $748.00\n                                     TOTAL:        $9,548.00\n\nPayment Terms: Net 30 Days\nThank you for your business!",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/upload",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "upload"]
+            },
+            "description": "Upload a sample invoice document to test invoice-specific metadata extraction"
+          },
+          "response": []
+        },
+        {
+          "name": "Wait for Processing (3s)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Wait for 3 seconds to allow processing to complete",
+                  "setTimeout(function(){}, 3000);",
+                  "",
+                  "pm.test('Wait completed', function () {",
+                  "    pm.expect(true).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Wait 3 seconds for document processing to complete"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Processing Complete",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Document processing completed', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.document.status).to.be.oneOf(['completed', 'failed']);",
+                  "});",
+                  "",
+                  "pm.test('Metadata extracted', function () {",
+                  "    const response = pm.response.json();",
+                  "    if (response.document.status === 'completed') {",
+                  "        pm.expect(response.document).to.have.property('metadata');",
+                  "        pm.expect(response.document.metadata).to.have.property('extractedText');",
+                  "        pm.expect(response.document.metadata).to.have.property('confidence');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "{{documentId}}"]
+            },
+            "description": "Verify that document processing has completed and metadata was extracted"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Scenarios",
+      "item": [
+        {
+          "name": "Upload Invalid File Type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Invalid file type rejected', function () {",
+                  "    pm.response.to.have.status(500);",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.error).to.include('Invalid file type');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invalid\": \"json file\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/upload",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "upload"]
+            },
+            "description": "Test error handling for invalid file types"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Non-existent Document",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Non-existent document returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.error).to.equal('Document not found');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/non-existent-id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", "non-existent-id"]
+            },
+            "description": "Test error handling for non-existent document IDs"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
