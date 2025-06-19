@@ -116,7 +116,9 @@ export class QueueService {
       removeOnFail: 5,
     });
 
-    console.log(`Added processing job for document ${documentId}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`Added processing job for document ${documentId}`);
+    }
   }
 
   async getQueueStats(): Promise<any> {
