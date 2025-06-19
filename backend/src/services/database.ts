@@ -31,7 +31,7 @@ export class DatabaseService {
         console.error("Error creating documents table:", err);
       } else {
         // Only log in non-test environments
-        if (process.env.NODE_ENV !== 'test') {
+        if (process.env.NODE_ENV !== "test") {
           console.log("Database initialized successfully");
         }
       }

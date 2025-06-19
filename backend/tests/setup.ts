@@ -1,9 +1,9 @@
-import { DatabaseService } from '../src/services/database';
-import * as path from 'path';
-import * as fs from 'fs';
+import { DatabaseService } from "../src/services/database";
+import * as path from "path";
+import * as fs from "fs";
 
 // Test database setup
-const TEST_DB_PATH = ':memory:'; // Use in-memory database for tests
+const TEST_DB_PATH = ":memory:"; // Use in-memory database for tests
 
 let testDb: DatabaseService;
 
@@ -21,7 +21,7 @@ afterEach(async () => {
 
 // Clean up test uploads directory
 afterAll(() => {
-  const testUploadsDir = path.join(__dirname, '../uploads');
+  const testUploadsDir = path.join(__dirname, "../uploads");
   if (fs.existsSync(testUploadsDir)) {
     fs.rmSync(testUploadsDir, { recursive: true, force: true });
   }
